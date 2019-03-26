@@ -2,11 +2,38 @@
 
 // $FlowFixMe
 import { NativeModules, NativeEventEmitter } from "react-native";
-const { RNLocalize } = NativeModules;
+let { RNLocalize } = NativeModules;
 
 export type Calendar = "gregorian" | "japanese" | "buddhist";
 export type LocalizationEvent = "change";
 export type TemperatureUnit = "celsius" | "fahrenheit";
+
+if (!RNLocalize) RNLocalize = {
+  initialConstants: {
+    "usesMetricSystem": false,
+    "uses24HourClock": false,
+    "timeZone": "Asia/Saigon",
+    "temperatureUnit": "fahrenheit",
+    "numberFormatSettings": {
+      "groupingSeparator": ",",
+      "decimalSeparator": "."
+    },
+    "locales": [{
+      "languageTag": "en-US",
+      "isRTL": false,
+      "countryCode": "US",
+      "languageCode": "en"
+    }, {
+      "languageTag": "vi-VN",
+      "isRTL": false,
+      "countryCode": "VN",
+      "languageCode": "vi"
+    }],
+    "currencies": ["USD", "VND"],
+    "country": "US",
+    "calendar": "gregorian"
+  }
+};
 
 export type Locale = {|
   +languageCode: string,
@@ -21,30 +48,7 @@ export type NumberFormatSettings = {|
   +groupingSeparator: string,
 |};
 
-let constants = RNLocalize.initialConstants || {
-  "usesMetricSystem": false,
-  "uses24HourClock": false,
-  "timeZone": "Asia/Saigon",
-  "temperatureUnit": "fahrenheit",
-  "numberFormatSettings": {
-    "groupingSeparator": ",",
-    "decimalSeparator": "."
-  },
-  "locales": [{
-    "languageTag": "en-US",
-    "isRTL": false,
-    "countryCode": "US",
-    "languageCode": "en"
-  }, {
-    "languageTag": "vi-VN",
-    "isRTL": false,
-    "countryCode": "VN",
-    "languageCode": "vi"
-  }],
-  "currencies": ["USD", "VND"],
-  "country": "US",
-  "calendar": "gregorian"
-};
+let constants = RNLocalize.initialConstants;
 
 const emitter = new NativeEventEmitter(RNLocalize);
 const handlers: Set<Function> = new Set();
