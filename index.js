@@ -21,7 +21,31 @@ export type NumberFormatSettings = {|
   +groupingSeparator: string,
 |};
 
-let constants = RNLocalize.initialConstants;
+let constants = RNLocalize.initialConstants || {
+  "usesMetricSystem": false,
+  "uses24HourClock": false,
+  "timeZone": "Asia/Saigon",
+  "temperatureUnit": "fahrenheit",
+  "numberFormatSettings": {
+    "groupingSeparator": ",",
+    "decimalSeparator": "."
+  },
+  "locales": [{
+    "languageTag": "en-US",
+    "isRTL": false,
+    "countryCode": "US",
+    "languageCode": "en"
+  }, {
+    "languageTag": "vi-VN",
+    "isRTL": false,
+    "countryCode": "VN",
+    "languageCode": "vi"
+  }],
+  "currencies": ["USD", "VND"],
+  "country": "US",
+  "calendar": "gregorian"
+};
+
 const emitter = new NativeEventEmitter(RNLocalize);
 const handlers: Set<Function> = new Set();
 
